@@ -12,6 +12,7 @@ This repository contains an implementation of an advanced Retrieval-Augmented Ge
 - **Agentic Workflow**: Uses LangGraph to create a flexible, state-based workflow
 - **Conversation Memory**: Maintains chat history for contextual responses
 - **Streaming Responses**: Real-time token-by-token streaming for better user experience
+- **Multilingual Capabilities**: Supports multiple languages using GPT-4o for translation
 
 ### Advanced Features
 
@@ -69,6 +70,16 @@ from enhanced_langgraph_rag_system import process_query
 
 # Ask a question
 result = process_query("What are the key features of LangGraph?")
+print(result["final_answer"])
+```
+
+### Multilingual Query
+
+The system can handle queries in multiple languages using GPT-4o for translation:
+
+```python
+# Ask a question in Spanish
+result = process_query("¿Cuáles son las características clave de LangGraph?")
 print(result["final_answer"])
 ```
 
@@ -159,6 +170,7 @@ The system is organized into several improvement modules:
 4. **structured_output.py**: Structured output and tool use
 5. **integration.py**: Integration of all improvements
 6. **streaming_responses.py**: Streaming response capabilities
+7. **multilingual_support.py**: Multilingual capabilities using GPT-4o
 
 ## Example Scripts
 
