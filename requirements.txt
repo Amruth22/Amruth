@@ -13,3 +13,5 @@ aiohttp>=3.8.5
 asyncio>=3.4.3
 pillow>=10.0.0
 pytube>=15.0.0
+langdetect>=1.0.9
+googletrans==4.0.0-rc1
