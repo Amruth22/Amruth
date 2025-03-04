@@ -11,6 +11,7 @@ This repository contains an implementation of an advanced Retrieval-Augmented Ge
 - **LLM Integration**: Powered by OpenAI's GPT-4o for high-quality responses
 - **Agentic Workflow**: Uses LangGraph to create a flexible, state-based workflow
 - **Conversation Memory**: Maintains chat history for contextual responses
+- **Streaming Responses**: Real-time token-by-token streaming for better user experience
 
 ### Advanced Features
 
@@ -41,6 +42,12 @@ This repository contains an implementation of an advanced Retrieval-Augmented Ge
 - **Tool Integration**: Uses external tools for weather, calculations, and web search
 - **Tool Detection**: Automatically detects when tools are needed
 
+#### 5. Streaming Responses
+- **Token-by-Token Streaming**: Get responses in real-time as they're generated
+- **State Updates**: Stream updates about the agent's state and actions
+- **Progress Visibility**: See when the system is retrieving, analyzing, or using tools
+- **Agentic Streaming**: Full streaming support for the entire agentic workflow
+
 ## Setup
 
 1. Clone this repository
@@ -63,6 +70,25 @@ from enhanced_langgraph_rag_system import process_query
 # Ask a question
 result = process_query("What are the key features of LangGraph?")
 print(result["final_answer"])
+```
+
+### Streaming Responses
+
+```python
+import asyncio
+from streaming_responses import StreamingRAGSystem
+
+async def stream_example():
+    # Initialize the streaming RAG system
+    streaming_rag = StreamingRAGSystem()
+    
+    # Stream a response
+    async for chunk in streaming_rag.stream_response("What is retrieval augmented generation?"):
+        if not chunk["complete"]:
+            print(chunk["chunk"], end="", flush=True)
+
+# Run the example
+asyncio.run(stream_example())
 ```
 
 ### Ingesting New URLs
@@ -132,6 +158,27 @@ The system is organized into several improvement modules:
 3. **evaluation.py**: Evaluation and feedback loop
 4. **structured_output.py**: Structured output and tool use
 5. **integration.py**: Integration of all improvements
+6. **streaming_responses.py**: Streaming response capabilities
+
+## Example Scripts
+
+- **example_usage.py**: Basic usage examples
+- **enhanced_langgraph_rag_system.py**: The main system with all improvements
+- **streaming_example.py**: Examples of streaming responses
+
+## Running the Streaming Demo
+
+To try out the streaming responses:
+
+```bash
+python streaming_example.py
+```
+
+This will present you with several demo options:
+1. Simple Streaming: Basic streaming response
+2. Streaming RAG System: Streaming with RAG context
+3. Agentic Streaming: Full agentic workflow with streaming
+4. Interactive Demo: Ask your own questions with streaming responses
 
 ## Customization
 
@@ -141,17 +188,3 @@ You can customize various aspects of the system:
 - Modify the prompts for different components
 - Add additional nodes to the workflow for more complex behaviors
 - Implement new tools in the ToolUseManager
-
-## Example Scripts
-
-- **example_usage.py**: Basic usage examples
-- **enhanced_langgraph_rag_system.py**: The main system with all improvements
-
-## Future Improvements
-
-Potential areas for further enhancement:
-- Streaming responses for better user experience
-- Fine-tuning models on domain-specific data
-- Adding more advanced tools and integrations
-- Implementing a web interface for easier interaction
-- Adding support for more content types and sources
