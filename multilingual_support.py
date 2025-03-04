@@ -1,22 +1,21 @@
 from langdetect import detect
-from googletrans import Translator
+from langchain_openai import ChatOpenAI
 
-translator = Translator()
+# Initialize the GPT-4o model
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 def detect_language(text: str) -> str:
     """Detect the language of the given text."""
     return detect(text)
 
-def translate_to_english(text: str, src_lang: str) -> str:
-    """Translate text to English."""
-    if src_lang == 'en':
+def translate_with_gpt(text: str, src_lang: str, dest_lang: str) -> str:
+    """Translate text using GPT-4o."""
+    if src_lang == dest_lang:
         return text
-    translation = translator.translate(text, src='auto', dest='en')
-    return translation.text
-
-def translate_from_english(text: str, dest_lang: str) -> str:
-    """Translate text from English to the destination language."""
-    if dest_lang == 'en':
-        return text
-    translation = translator.translate(text, src='en', dest=dest_lang)
-    return translation.text
+    
+    # Create a translation prompt
+    prompt = f"Translate the following text from {src_lang} to {dest_lang}:\n\n{text}"
+    
+    # Use GPT-4o to translate
+    response = llm.invoke(prompt)
+    return response.content.strip()
