@@ -7,7 +7,7 @@ from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 
 # Import multilingual support
-from multilingual_support import detect_language, translate_to_english, translate_from_english
+from multilingual_support import detect_language, translate_with_gpt
 
 # Initialize OpenAI models
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
@@ -93,7 +93,7 @@ def process_query(
     detected_language = detect_language(query)
     
     # Translate the query to English if necessary
-    translated_query = translate_to_english(query, detected_language)
+    translated_query = translate_with_gpt(query, detected_language, 'en')
     
     # Process the translated query
     if chat_history is None:
@@ -133,7 +133,7 @@ def process_query(
     result = app.invoke(initial_state)
     
     # Translate the final answer back to the original language
-    result["final_answer"] = translate_from_english(result["final_answer"], detected_language)
+    result["final_answer"] = translate_with_gpt(result["final_answer"], 'en', detected_language)
     
     # Collect feedback if requested
     if collect_user_feedback and user_rating is not None:
